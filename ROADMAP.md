@@ -22,7 +22,32 @@ This file tracks current work and completed gate-backed language surface.
 - `git diff --check`
 - `bash scripts/test-release-gates.sh`
 
-## 현재 작업 (2026-08-20g) — 전체 기능 한 장 문서 + 경유 root-fix
+## 다음 아크 (2026-08-23 결정) — AI-native 벤치: "AI가 가장 잘 쓰는 언어" 가설 측정
+모드: 새 세션에서 시작 (이 절이 재개 포인트)
+배경: "기존 언어 전부 대체"는 채택·플랫폼·학습 데이터 구조상 불가로
+결론(능력 문제 아님 — 컴파일러 23.5k줄+도구 17종이 실증). 토큰 밀도
+가설은 실측 실패(Python 대비 +33%, docs/design/TOKEN-DENSITY.md).
+살아있는 가설: **검증 가능성** — 학습 데이터 0인 Vais로 AI가 매 사이클
+첫 빌드 정답을 낸 것은 작은 표면+front LOUD 거부+값 잠금 게이트가
+학습 데이터 부족을 보상했기 때문. 병목 재정의: "쓰는 비용"→"믿는 비용".
+- [ ] 1. 지표 정의 — 기능당 AI 오류율(첫 빌드 정답률), 게이트 통과까지
+      반복 횟수, 검증 비용(테스트 작성·실행). 토큰 수는 보조 지표.
+- [ ] 2. 벤치 하네스 — 동일 과제 10~20개(CLI 텍스트 도구/파서/데이터
+      변환 + 중립 영역)를 Python·TS·Vais로 AI가 작성, 결정적 채점
+      (`# expect` 값 잠금 방식). 릴레번스 하네스 패턴: 결정적 게이트
+      + 라이브 리포트 + docs/AI-NATIVE-BASELINE.md.
+- [ ] 3. 결과 포지셔닝 — 이기는 축이 있으면 "AI 생성 코드의 검증-우선
+      타깃" 니치로 시작(막힌 벽 float/네트워크/패키지 배포/LLM용 명세를
+      수요 순으로), 없으면 가설을 접고 기록. 병행 대안: 방법론(두 엔진
+      parity·front 계약·예제=테스트·도그푸딩 환류)을 기존 언어에 이식.
+진행률: 0/3
+
+### 잔여 기술 후보 (수요 대기)
+- 한 줄 `for`/`while` 본문 엔진 일치(full 수용·direct LOUD — 분할기
+  확장 or front 거부), v1.6.0 컷(v1.5.0 이후 7커밋), vaisjq/vaislisp
+  추가 라운드, vaiscalc 확장.
+
+## 직전 완료 (2026-08-20g) — 전체 기능 한 장 문서 + 경유 root-fix
 모드: 개별선택 (사용자 요청 — 이해용 단일 문서)
 - [x] 1. docs/OVERVIEW.ko.md ✅ 2026-08-20 — 구조 그림/언어 표면/호스트
       API 표/vaisc·게이트 래더/도구 17종/vaisdb·vaislisp·vaisjq·
